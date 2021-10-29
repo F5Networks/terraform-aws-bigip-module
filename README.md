@@ -41,11 +41,11 @@ This module is supported in the following bigip and terraform version
 
 ## Custom User data
 
-* By default custom_user_data will be null,bigip module will use default f5_onboard.tmpl file contents for initial BIGIP onboard connfiguration
++ By default `custom_user_data` will be null,bigip module will use default f5_onboard.tmpl file contents for initial BIGIP onboard connfiguration
 
-* If users desire custom onboard configuration,we can use this variable and pass contents of custom script to the variable to have custom onboard bigip  configuration.( An example is provided in examples section )
++ If users desire custom onboard configuration,we can use this variable and pass contents of custom script to the variable to have custom onboard bigip  configuration.( An example is provided in examples section )
 
-```
+```hcl
 module bigip {
   source                      = "../../"
   prefix                      = "bigip-aws-3nic"
@@ -177,10 +177,10 @@ module bigip {
 
 These variables must be set in the module block when using this module.
 
-| Name | Description | Type | 
+| Name | Description | Type |
 |------|-------------|------|
 | prefix | This value is inserted in the beginning of each aws object. Note: requires alpha-numeric without special character | `string` |
-| ec2_key_name 	| AWS EC2 Key name for SSH access,managing key is out of band module, user can reference this key name from [aws_key_pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair)	| string 	|  	|
+| ec2_key_name  | AWS EC2 Key name for SSH access,managing key is out of band module, user can reference this key name from [aws_key_pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | string  |   |
 | mgmt\_subnet\_ids | Map with Subnet-id and public_ip as keys for the management subnet | `List of Maps` |
 | mgmt\_securitygroup\_ids | securitygroup\_ids for the management interface | `List` |
 
