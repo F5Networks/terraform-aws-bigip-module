@@ -1,13 +1,13 @@
 # BIG-IP Management Public IP Addresses
 output "mgmtPublicIP" {
   description = "List of BIG-IP public IP addresses for the management interfaces"
-  value       = concat(aws_instance.f5_bigip.*.public_ip)
+  value       = concat(aws_instance.f5_bigip.*.public_ip)[0]
 }
 
 # BIG-IP Management Public DNS
 output "mgmtPublicDNS" {
   description = "List of BIG-IP public DNS records for the management interfaces"
-  value       = concat(aws_instance.f5_bigip.*.public_dns)
+  value       = concat(aws_instance.f5_bigip.*.public_dns)[0]
 }
 
 # BIG-IP Management Port
@@ -63,5 +63,5 @@ output "onboard_do" {
 }
 
 output "bigip_instance_ids" {
-  value = concat(aws_instance.f5_bigip.*.id)
+  value = concat(aws_instance.f5_bigip.*.id)[0]
 }

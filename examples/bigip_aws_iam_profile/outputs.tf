@@ -25,7 +25,7 @@ output "bigip_password" {
 
 output "mgmtPublicURL" {
   description = "mgmtPublicURL"
-  value       = [for i in range(var.instance_count) : format("https://%s:%s", module.bigip[i].mgmtPublicDNS[0], module.bigip[i].mgmtPort)]
+  value       = [for i in range(var.instance_count) : format("https://%s:%s", module.bigip[i].mgmtPublicDNS, module.bigip[i].mgmtPort)]
 }
 
 # VPC ID used for BIG-IP Deploy
