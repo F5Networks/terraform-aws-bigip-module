@@ -27,9 +27,9 @@ This module is supported in the following bigip and terraform version
 
 ## Password Management
 
-~> **NOTE** By default bigip module will have random password setting to give dynamic password generation
+~> **NOTE:** By default bigip module will have random password setting to give dynamic password generation
 
-~> **NOTE** Users Can explicitly provide password as input to Module using optional Variable "f5_password"
+~> **NOTE:** Users Can explicitly provide password as input to Module using optional Variable "f5_password"
 
 ~> **NOTE** To use AWS secret manager password,we have to enable the variable "aws_secretmanager_auth" to true and supply the secret name to variable "aws_secretmanager_secret_id" and also IAM Profile to "aws_iam_instance_profile"
 
@@ -66,7 +66,7 @@ We have provided some common deployment [examples](https://github.com/F5Networks
 
 !> **NOTE:** With Static private ip allocation we can assign primary and secondary private ips for external interfaces, whereas primary private ip for management and internal interfaces.
 
-!> **WARNING** If it is static private ip allocation we can't use module count as same private ips will be tried to allocate for multiple bigip instances based on module count.
+!> **NOTE:** If it is static private ip allocation we can't use module count as same private ips will be tried to allocate for multiple bigip instances based on module count.
 
 ~> **WARNING** With Dynamic private ip allocation,we have to pass null value to primary/secondary private ip declaration and module count will be supported.
 
@@ -222,15 +222,12 @@ These variables have default values and don't have to be set to use this module.
 | public\_addresses | It is List of Maps all public address assigned for External-public-primary/ External-public-secondary|
 | bigip\_instance\_ids | List of BIG-IP AWS Instance IDs Created |
 
-~ **NOTE:**
-  IF you want to access External interface private IPs, you need to filter it form `private_addresses` map like below:
-
-  ```hcl
-    output "external_public_primary_private_ip" {
-      description = "List of BIG-IP private addresses"
-      value       = flatten([for i in range(length(module.bigip.*.private_addresses)) : module.bigip.*.private_addresses[i]["public_private"]["private_ip"]])
-    }
-  ```
+~ **NOTE:** IF you want to access External interface private IPs, you need to filter it form `private_addresses` map like below:
+    ```hcl
+      output "external_public_primary_private_ip" {
+        description = "List of BIG-IP private addresses"
+        value       = flatten([for i in range(length(module.bigip.*.private_addresses)) : module.bigip.*.private_addresses[i]["public_private"]["private_ip"]])
+      }```
 
 ~> **NOTE:** A local json file will get generated which contains the DO declaration
 
