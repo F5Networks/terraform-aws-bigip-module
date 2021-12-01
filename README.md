@@ -1,4 +1,4 @@
-## Deploys BIG-IP in AWS Cloud
+# Deploys BIG-IP in AWS Cloud
 
 This Terraform module deploys N-nic F5 BIG-IP in AWS cloud,and with module `count` feature we can also deploy multiple instances of BIG-IP.
 
@@ -6,7 +6,7 @@ This Terraform module deploys N-nic F5 BIG-IP in AWS cloud,and with module `coun
 
 This module is supported from Terraform 0.13 version onwards.
 
-It is tested against following provider/terraform versions 
+It is tested against following provider/terraform versions
 
 Terraform v0.14.0
 
@@ -47,7 +47,7 @@ This module is supported in the following bigip and terraform version
 
 ```hcl
 module bigip {
-  source                      = "../../"
+  source                      = "F5Networks/bigip-module/aws"
   prefix                      = "bigip-aws-3nic"
   ec2_key_name                = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids             = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true, "private_ip_primary" =  ""}]
@@ -62,7 +62,7 @@ module bigip {
 
 ## Example Usage
 
-We have provided some common deployment [examples](https://github.com/f5devcentral/terraform-aws-bigip-module/tree/master/examples)
+We have provided some common deployment [examples](https://github.com/F5Networks/terraform-aws-bigip-module/tree/main/examples)
 
 !> **Note:** There should be one to one mapping between subnet_ids and securitygroup_ids (for example if we have 2 or more external subnet_ids,we have to give same number of external securitygroup_ids to module)
 
@@ -77,14 +77,14 @@ We have provided some common deployment [examples](https://github.com/f5devcentr
 
 !> **Note:** Sometimes it is observed that the given static primary and secondary private ips may get exchanged. This is the limitation present in aws.
 
-#### Below example snippets show how this module is called (Dynamic private ip allocation )
+### Below example snippets show how this module is called (Dynamic private ip allocation )
 
 ```hcl
 #
 #Example 1-NIC Deployment Module usage
 #
 module bigip {
-  source                 = "../../"
+  source                 = "F5Networks/bigip-module/aws"
   prefix                 = "bigip-aws-1nic"
   ec2_key_name           = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids        = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true, "private_ip_primary" =  ""}]
@@ -95,7 +95,7 @@ module bigip {
 #Example 2-NIC Deployment Module usage
 #
 module bigip {
-  source                      = "../../"
+  source                      = "F5Networks/bigip-module/aws"
   prefix                      = "bigip-aws-2nic"
   ec2_key_name                = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids             = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true, "private_ip_primary" =  ""}]
@@ -108,7 +108,7 @@ module bigip {
 #Example 3-NIC Deployment  Module usage
 #
 module bigip {
-  source                      = "../../"
+  source                      = "F5Networks/bigip-module/aws"
   prefix                      = "bigip-aws-3nic"
   ec2_key_name                = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids             = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true, "private_ip_primary" =  ""}]
@@ -124,7 +124,7 @@ module bigip {
 #
 
 module bigip {
-  source                      = "../../"
+  source                      = "F5Networks/bigip-module/aws"
   prefix                      = "bigip-aws-4nic"
   ec2_key_name                = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids             = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true }]
@@ -140,7 +140,7 @@ module bigip {
 #
 module bigip {
   count                  = 2
-  source                 = "../../"
+  source                 = "F5Networks/bigip-module/aws"
   prefix                 = "bigip-aws-1nic"
   ec2_key_name           = aws_key_pair.generated_key.key_name
   mgmt_subnet_ids        = [{ "subnet_id" = "subnet_id_mgmt", "public_ip" = true, "private_ip_primary" =  ""}]
@@ -160,7 +160,7 @@ module bigip {
 #Example 3-NIC Deployment with static private ip allocation
 #
 module bigip {
-  source                      = "../../"
+  source                      = "F5Networks/bigip-module/aws"
   prefix                      = format("%s-3nic", var.prefix)
   ec2_key_name                = aws_key_pair.generated_key.key_name
   aws_secretmanager_secret_id = aws_secretsmanager_secret.bigip.id
@@ -173,18 +173,18 @@ module bigip {
 }
 ```
 
-#### Required Input Variables
+### Required Input Variables
 
 These variables must be set in the module block when using this module.
 
 | Name | Description | Type |
 |------|-------------|------|
 | prefix | This value is inserted in the beginning of each aws object. Note: requires alpha-numeric without special character | `string` |
-| ec2_key_name  | AWS EC2 Key name for SSH access,managing key is out of band module, user can reference this key name from [aws_key_pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | string  |   |
+| ec2_key_name  | AWS EC2 Key name for SSH access,managing key is out of band module, user can reference this key name from [aws_key_pair](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/key_pair) | `string`  |   |
 | mgmt\_subnet\_ids | Map with Subnet-id and public_ip as keys for the management subnet | `List of Maps` |
 | mgmt\_securitygroup\_ids | securitygroup\_ids for the management interface | `List` |
 
-#### Optional Input Variables
+### Optional Input Variables
 
 These variables have default values and don't have to be set to use this module. You may set these variables to override their default values.
 
@@ -192,29 +192,29 @@ These variables have default values and don't have to be set to use this module.
 |------|-------------|------|---------|
 | f5\_username | The admin username of the F5   BIG-IP that will be deployed | `string` | bigipuser |
 | f5\_password | Password of the F5  BIG-IP that will be deployed | `string` | "" |
-| ec2_instance_type 	| AWS EC2 instance type 	| string 	| m5.large 	|
-| f5_ami_search_name 	| BIG-IP AMI name to search for 	| string 	| F5 BIGIP-* PAYG-Best 200Mbps* 	|
-| aws_secretmanager_auth 	| Whether to use key vault to pass authentication 	| bool 	| FALSE 	|
-| aws_secretmanager_secret_id 	| AWS Secret Manager Secret ID that stores the BIG-IP password 	| string 	|  	|
-| aws_iam_instance_profile 	| AWS IAM instance profile that can be associate for BIGIP with required permissions 	| string 	|  	|
-| DO_URL | URL to download the BIG-IP Declarative Onboarding module | `string` | latest | 
-| AS3_URL | URL to download the BIG-IP Application Service Extension 3 (AS3) module | `string` | latest | 
-| TS_URL | URL to download the BIG-IP Telemetry Streaming module | `string` | latest | 
-| FAST_URL | URL to download the BIG-IP FAST module | `string` | latest | 
+| ec2_instance_type  | AWS EC2 instance type  | `string`  | m5.large  |
+| f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-* PAYG-Best 200Mbps*  |
+| aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | FALSE  |
+| aws_secretmanager_secret_id  | AWS Secret Manager Secret ID that stores the BIG-IP password  | `string`  |   |
+| aws_iam_instance_profile  | AWS IAM instance profile that can be associate for BIGIP with required permissions  | `string`  |   |
+| DO_URL | URL to download the BIG-IP Declarative Onboarding module | `string` | latest |
+| AS3_URL | URL to download the BIG-IP Application Service Extension 3 (AS3) module | `string` | latest |
+| TS_URL | URL to download the BIG-IP Telemetry Streaming module | `string` | latest |
+| FAST_URL | URL to download the BIG-IP FAST module | `string` | latest |
 | CFE_URL | URL to download the BIG-IP Cloud Failover Extension module | `string` | latest |
 | INIT_URL | URL to download the BIG-IP runtime init module | `string` | latest |
 | libs\_dir | Directory on the BIG-IP to download the A&O Toolchain into | `string` | /config/cloud/aws/node_modules |
-| custom\_user\_data | Provide a custom bash script or cloud-init script the BIG-IP will run on creation | string  |   null   |
+| custom\_user\_data | Provide a custom bash script or cloud-init script the BIG-IP will run on creation | `string`  |   null   |
 | onboard\_log | Directory on the BIG-IP to store the cloud-init logs | `string` | /var/log/startup-script.log |
 | external\_subnet\_ids | he subnet id of the virtual network where the virtual machines will reside | `List of Maps` | [{ "subnet_id" = null, "public_ip" = null }] |
 | internal\_subnet\_ids | The subnet id of the virtual network where the virtual machines will reside | `List of Maps` | [{ "subnet_id" = null, "public_ip" = null }] |
 | external\_securitygroup\_ids | The Network Security Group ids for external network | `List` | [] |
 | internal\_securitygroup\_ids | The Network Security Group ids for internal network | `List` | [] |
-| tags | `key:value` tags to apply to resources built by the module | map  |   {}   |
+| tags | `key:value` tags to apply to resources built by the module | `map`  |   {}   |
 
 ~> **NOTE:** For each external interface there will be one primary,secondary private ip will be assigned.
 
-#### Output Variables
+### Output Variables
 
 | Name | Description |
 |------|-------------|
