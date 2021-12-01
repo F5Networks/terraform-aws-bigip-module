@@ -27,17 +27,13 @@ This module is supported in the following bigip and terraform version
 
 ## Password Management
 
-|:point_up: |By default bigip module will have random password setting to give dynamic password generation|
-|----|---|
+~> **NOTE** By default bigip module will have random password setting to give dynamic password generation
 
-|:point_up: |Users Can explicitly provide password as input to Module using optional Variable "f5_password"|
-|----|---|
+~> **NOTE** Users Can explicitly provide password as input to Module using optional Variable "f5_password"
 
-|:point_up:  | To use AWS secret manager password,we have to enable the variable "aws_secretmanager_auth" to true and supply the secret name to variable "aws_secretmanager_secret_id" and also IAM Profile to "aws_iam_instance_profile"|
-|-----|----|
+~> **NOTE** To use AWS secret manager password,we have to enable the variable "aws_secretmanager_auth" to true and supply the secret name to variable "aws_secretmanager_secret_id" and also IAM Profile to "aws_iam_instance_profile"
 
-|:warning:  |End Users are responsible of the IAM profile setup, please find useful links for [IAM Setup](https://aws.amazon.com/premiumsupport/knowledge-center/restrict-ec2-iam/)|
-|:-----------|:----|
+~> **NOTE** End Users are responsible of the IAM profile setup, please find useful links for [IAM Setup](https://aws.amazon.com/premiumsupport/knowledge-center/restrict-ec2-iam/)
 
 ## Custom User data
 
@@ -64,18 +60,17 @@ module bigip {
 
 We have provided some common deployment [examples](https://github.com/F5Networks/terraform-aws-bigip-module/tree/main/examples)
 
-!> **Note:** There should be one to one mapping between subnet_ids and securitygroup_ids (for example if we have 2 or more external subnet_ids,we have to give same number of external securitygroup_ids to module)
+!> **NOTE:** There should be one to one mapping between subnet_ids and securitygroup_ids (for example if we have 2 or more external subnet_ids,we have to give same number of external securitygroup_ids to module)
 
-!> **Note:** Users can have dynamic or static private ip allocation.If primary/secondary private ip value is null it will be dynamic,else it will be static private ip allocation.
+!> **NOTE:** Users can have dynamic or static private ip allocation.If primary/secondary private ip value is null it will be dynamic,else it will be static private ip allocation.
 
-!> **Note:** With Static private ip allocation we can assign primary and secondary private ips for external interfaces, whereas primary private ip for management and internal interfaces.
+!> **NOTE:** With Static private ip allocation we can assign primary and secondary private ips for external interfaces, whereas primary private ip for management and internal interfaces.
 
-~> **WARNING** If it is static private ip allocation we can't use module count as same private ips will be tried to allocate for multiple bigip instances based on module count.
+!> **WARNING** If it is static private ip allocation we can't use module count as same private ips will be tried to allocate for multiple bigip instances based on module count.
 
-| :warning:  **WARNING** | With Dynamic private ip allocation,we have to pass null value to primary/secondary private ip declaration and module count will be supported.|
-|:-----------|:----|
+~> **WARNING** With Dynamic private ip allocation,we have to pass null value to primary/secondary private ip declaration and module count will be supported.
 
-!> **Note:** Sometimes it is observed that the given static primary and secondary private ips may get exchanged. This is the limitation present in aws.
+!> **NOTE:** Sometimes it is observed that the given static primary and secondary private ips may get exchanged. This is the limitation present in aws.
 
 ### Below example snippets show how this module is called (Dynamic private ip allocation )
 
