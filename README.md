@@ -261,7 +261,7 @@ This repository is community-supported. Follow instructions below on how to rais
 
 ### Filing Issues and Getting Help
 
-If you come across a bug or other issue, use [GitHub Issues](https://github.com/f5devcentral/terraform-aws-bigip-module/issues) to submit an issue for our team.  You can also see the current known issues on that page, which are tagged with a purple Known Issue label.
+If you come across a bug or other issue, use [GitHub Issues](https://github.com/F5Networks/terraform-aws-bigip-module/issues) to submit an issue for our team.  You can also see the current known issues on that page, which are tagged with a purple Known Issue label.
 
 ## Copyright
 
