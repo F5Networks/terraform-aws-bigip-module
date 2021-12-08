@@ -223,11 +223,13 @@ These variables have default values and don't have to be set to use this module.
 | bigip\_instance\_ids | List of BIG-IP AWS Instance IDs Created |
 
 ~ **NOTE:** IF you want to access External interface private IPs, you need to filter it form `private_addresses` map like below:
-    ```hcl
-      output "external_public_primary_private_ip" {
-        description = "List of BIG-IP private addresses"
-        value       = flatten([for i in range(length(module.bigip.*.private_addresses)) : module.bigip.*.private_addresses[i]["public_private"]["private_ip"]])
-      }```
+
+```hcl
+  output "external_public_primary_private_ip" {
+    description = "List of BIG-IP private addresses"
+    value       = flatten([for i in range(length(module.bigip.*.private_addresses)) : module.bigip.*.private_addresses[i]["public_private"]["private_ip"]])
+  }
+```
 
 ~> **NOTE:** A local json file will get generated which contains the DO declaration
 
