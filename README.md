@@ -206,6 +206,7 @@ These variables have default values and don't have to be set to use this module.
 | external\_securitygroup\_ids | The Network Security Group ids for external network | `List` | [] |
 | internal\_securitygroup\_ids | The Network Security Group ids for internal network | `List` | [] |
 | tags | `key:value` tags to apply to resources built by the module | `map`  |   {}   |
+| sleep_time | The number of seconds/minutes of delay to build into creation of BIG-IP VMs | `string` | 300s |
 
 ~> **NOTE:** For each external interface there will be one primary,secondary private ip will be assigned.
 

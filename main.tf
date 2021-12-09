@@ -433,14 +433,16 @@ resource "aws_instance" "f5_bigip" {
   }
   iam_instance_profile = var.aws_iam_instance_profile
   user_data            = coalesce(var.custom_user_data, data.template_file.user_data_vm0.rendered)
-  provisioner "local-exec" {
-    command = "sleep 420"
-  }
   tags = merge(local.tags, {
     Name = format("BIGIP-Instance-%s", local.instance_prefix)
     }
   )
   depends_on = [aws_eip.mgmt, aws_network_interface.public, aws_network_interface.private]
+}
+
+resource "time_sleep" "wait_for_aws_instance_f5_bigip" {
+  depends_on      = [aws_instance.f5_bigip]
+  create_duration = var.sleep_time
 }
 
 data "template_file" "clustermemberDO1" {
