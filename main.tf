@@ -374,15 +374,15 @@ data "template_file" "user_data_vm0" {
     bigip_password         = (var.f5_password == "") ? (var.aws_secretmanager_auth ? data.aws_secretsmanager_secret_version.current[0].secret_id : random_string.dynamic_password.result) : var.f5_password
     INIT_URL               = var.INIT_URL,
     DO_URL                 = var.DO_URL,
-    DO_VER                 = split("/", var.DO_URL)[7]
+    DO_VER                 = format("v%s", split("-", split("/", var.DO_URL)[length(split("/", var.DO_URL)) - 1])[3])
     AS3_URL                = var.AS3_URL,
-    AS3_VER                = split("/", var.AS3_URL)[7]
-    TS_VER                 = split("/", var.TS_URL)[7]
+    AS3_VER                = format("v%s", split("-", split("/", var.AS3_URL)[length(split("/", var.AS3_URL)) - 1])[2])
+    TS_VER                 = format("v%s", split("-", split("/", var.TS_URL)[length(split("/", var.TS_URL)) - 1])[2])
     TS_URL                 = var.TS_URL,
     CFE_URL                = var.CFE_URL,
-    CFE_VER                = split("/", var.CFE_URL)[7]
+    CFE_VER                = format("v%s", split("-", split("/", var.CFE_URL)[length(split("/", var.CFE_URL)) - 1])[3])
     FAST_URL               = var.FAST_URL,
-    FAST_VER               = split("/", var.FAST_URL)[7]
+    FAST_VER               = format("v%s", split("-", split("/", var.FAST_URL)[length(split("/", var.FAST_URL)) - 1])[3])
   }
 }
 
