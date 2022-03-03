@@ -66,10 +66,14 @@ resource "aws_route_table" "internet-gw" {
   }
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_subnet" "mgmt" {
   vpc_id            = module.vpc.vpc_id
   cidr_block        = cidrsubnet(var.cidr, 8, 1)
-  availability_zone = format("%sa", var.region)
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "management"
@@ -84,7 +88,7 @@ resource "aws_route_table_association" "route_table_management" {
 resource "aws_subnet" "external-public" {
   vpc_id            = module.vpc.vpc_id
   cidr_block        = cidrsubnet(var.cidr, 8, 2)
-  availability_zone = format("%sa", var.region)
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
     Name = "external"
