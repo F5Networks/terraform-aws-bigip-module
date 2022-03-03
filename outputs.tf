@@ -21,9 +21,7 @@ output "f5_username" {
 }
 
 output "bigip_password" {
-  description = <<-EOT
- "Password for bigip user ( if dynamic_password is choosen it will be random generated password or if aws_secretmanager_auth is choosen it will be aws secretmanager secret_id )
-  EOT
+  description = "Password for bigip user ( if dynamic_password is choosen it will be random generated password or if aws_secretmanager_auth is choosen it will be aws secretmanager secret_id )"
   value       = (var.custom_user_data == null) ? ((var.f5_password == "") ? (var.aws_secretmanager_auth ? var.aws_secretmanager_secret_id : random_string.dynamic_password.result) : var.f5_password) : "Password as provided in custom runtime-init"
 }
 
@@ -58,8 +56,7 @@ output "public_addresses" {
 }
 
 output "onboard_do" {
-  value      = local.total_nics > 1 ? (local.total_nics == 2 ? data.template_file.clustermemberDO2[0].rendered : data.template_file.clustermemberDO3[0].rendered) : data.template_file.clustermemberDO1[0].rendered
-  depends_on = [data.template_file.clustermemberDO1[0], data.template_file.clustermemberDO2[0], data.template_file.clustermemberDO3[0]]
+  value = local.total_nics > 1 ? (local.total_nics == 2 ? local.clustermemberDO2 : local.clustermemberDO3) : local.clustermemberDO1
 }
 
 output "bigip_instance_ids" {
