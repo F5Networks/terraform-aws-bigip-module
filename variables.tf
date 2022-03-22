@@ -14,6 +14,11 @@ variable "f5_password" {
   default     = ""
 }
 
+variable "f5_hostname" {
+  description = "custom f5_hostname. defaults to mgmt public dns"
+  default     = ""
+}
+
 variable "f5_ami_search_name" {
   description = "BIG-IP AMI name to search for"
   type        = string

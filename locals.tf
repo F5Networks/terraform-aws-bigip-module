@@ -152,8 +152,13 @@ locals {
     gateway       = cidrhost(format("%s/24", local.selfip_list[0]), 1)
   }) : ""
 
+  f5_hostname = var.f5_hostname != "" ? var.f5_hostname : (
+    length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
+  ) #need to solve for edge cases here...like if public_ip = false on mgmt...or length of mgmt ip
+
   clustermemberDO3 = local.total_nics >= 3 ? templatefile("${path.module}/templates/onboard_do_3nic.tpl", {
-    hostname      = length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
+    #hostname      = length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
+    hostname      = local.f5_hostname
     name_servers  = join(",", formatlist("\"%s\"", ["169.254.169.253"]))
     search_domain = "f5.com"
     ntp_servers   = join(",", formatlist("\"%s\"", ["169.254.169.123"]))
