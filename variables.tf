@@ -15,7 +15,8 @@ variable "f5_password" {
 }
 
 variable "f5_hostname" {
-  description = "custom f5_hostname. defaults to mgmt public dns"
+  description = "Custom management hostname. Defaults to managemet public dns."
+  type        = string
   default     = ""
 }
 

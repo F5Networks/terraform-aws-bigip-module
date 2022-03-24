@@ -137,10 +137,9 @@ locals {
 
   f5_hostname = var.f5_hostname != "" ? var.f5_hostname : (
     length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
-  ) #need to solve for edge cases here...like if public_ip = false on mgmt
+  )
 
   clustermemberDO1 = local.total_nics == 1 ? templatefile("${path.module}/templates/onboard_do_1nic.tpl", {
-    #hostname      = length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
     hostname      = local.f5_hostname
     name_servers  = join(",", formatlist("\"%s\"", ["169.254.169.253"]))
     search_domain = "f5.com"
@@ -148,7 +147,6 @@ locals {
   }) : ""
 
   clustermemberDO2 = local.total_nics == 2 ? templatefile("${path.module}/templates/onboard_do_2nic.tpl", {
-    #hostname      = length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
     hostname      = local.f5_hostname
     name_servers  = join(",", formatlist("\"%s\"", ["169.254.169.253"]))
     search_domain = "f5.com"
@@ -159,7 +157,6 @@ locals {
   }) : ""
 
   clustermemberDO3 = local.total_nics >= 3 ? templatefile("${path.module}/templates/onboard_do_3nic.tpl", {
-    #hostname      = length(aws_eip.mgmt) > 0 ? aws_eip.mgmt[0].public_dns : ""
     hostname      = local.f5_hostname
     name_servers  = join(",", formatlist("\"%s\"", ["169.254.169.253"]))
     search_domain = "f5.com"
