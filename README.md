@@ -72,6 +72,8 @@ We have provided some common deployment [examples](https://github.com/F5Networks
 
 !> **NOTE:** Sometimes it is observed that the given static primary and secondary private ips may get exchanged. This is the limitation present in aws.
 
+~>**NOTE:** If you are using custom ATC tools, don't change name of ATC tools rpm file( ex: f5-declarative-onboarding-xxxx.noarch.rpm,f5-appsvcs-xxx.noarch.rpm)
+
 ### Below example snippets show how this module is called (Dynamic private ip allocation )
 
 ```hcl
@@ -192,12 +194,12 @@ These variables have default values and don't have to be set to use this module.
 | aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | FALSE  |
 | aws_secretmanager_secret_id  | AWS Secret Manager Secret ID that stores the BIG-IP password  | `string`  |   |
 | aws_iam_instance_profile  | AWS IAM instance profile that can be associate for BIGIP with required permissions  | `string`  |   |
-| DO_URL | URL to download the BIG-IP Declarative Onboarding module | `string` | latest |
-| AS3_URL | URL to download the BIG-IP Application Service Extension 3 (AS3) module | `string` | latest |
-| TS_URL | URL to download the BIG-IP Telemetry Streaming module | `string` | latest |
-| FAST_URL | URL to download the BIG-IP FAST module | `string` | latest |
-| CFE_URL | URL to download the BIG-IP Cloud Failover Extension module | `string` | latest |
-| INIT_URL | URL to download the BIG-IP runtime init module | `string` | latest |
+| DO_URL | URL to download the BIG-IP Declarative Onboarding module | `string` | `latest` Note: don't change name of ATC tools rpm file |
+| AS3_URL | URL to download the BIG-IP Application Service Extension 3 (AS3) module | `string` | `latest` Note: don't change name of ATC tools rpm file |
+| TS_URL | URL to download the BIG-IP Telemetry Streaming module | `string` | `latest` Note: don't change name of ATC tools rpm file |
+| FAST_URL | URL to download the BIG-IP FAST module | `string` | `latest` Note: don't change name of ATC tools rpm file |
+| CFE_URL | URL to download the BIG-IP Cloud Failover Extension module | `string` | `latest` Note: don't change name of ATC tools rpm file |
+| INIT_URL | URL to download the BIG-IP runtime init module | `string` | `latest` Note: don't change name of ATC tools rpm file |
 | libs\_dir | Directory on the BIG-IP to download the A&O Toolchain into | `string` | /config/cloud/aws/node_modules |
 | custom\_user\_data | Provide a custom bash script or cloud-init script the BIG-IP will run on creation | `string`  |   null   |
 | onboard\_log | Directory on the BIG-IP to store the cloud-init logs | `string` | /var/log/startup-script.log |
