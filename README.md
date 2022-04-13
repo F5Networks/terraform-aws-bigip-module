@@ -189,6 +189,7 @@ These variables have default values and don't have to be set to use this module.
 |------|-------------|------|---------|
 | f5\_username | The admin username of the F5   BIG-IP that will be deployed | `string` | bigipuser |
 | f5\_password | Password of the F5  BIG-IP that will be deployed | `string` | "" |
+| f5\_hostname | Custom management hostname. Defaults to managemet public dns | `string` | "" |
 | ec2_instance_type  | AWS EC2 instance type  | `string`  | m5.large  |
 | f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-* PAYG-Best 200Mbps*  |
 | aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | FALSE  |
