@@ -1,4 +1,4 @@
-> :warning: **CVE-2020-5902**: Warning: due to [CVE-2020-5902](https://support.f5.com/csp/article/K52145254), do not use templates unless using customImage parameter. Updated images are pending publication to Marketplace. Please see [CVE-2020-5902](https://support.f5.com/csp/article/K52145254) and Cloud Provider for latest updates.
+> :warning: **CVE-2020-5902**: Warning: due to [CVE-2020-5902](https://support.f5.com/csp/article/K52145254), do not use Module unless using **f5_ami_search_name** input parameter. Updated images are pending publication to Marketplace. Please see [CVE-2020-5902](https://support.f5.com/csp/article/K52145254) and Cloud Provider for latest updates.
 
 
 # Deploys BIG-IP in AWS Cloud
