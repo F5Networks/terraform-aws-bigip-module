@@ -27,6 +27,12 @@ runtime_parameters:
   - name: USER_NAME
     type: static
     value: ${bigip_username}
+  - name: HOST_NAME
+    type: metadata
+    metadataProvider:
+      environment: aws
+      type: compute
+      field: hostname
   - name: SSH_KEYS
     type: static
 EOF
@@ -48,17 +54,19 @@ else
   - name: ADMIN_PASS
     type: static
     value: ${bigip_password}
-EOF
-fi
-
-# Add remaining runtime_parameters:
-cat << 'EOF' >> /config/cloud/runtime-init-conf.yaml
 pre_onboard_enabled:
   - name: provision_rest
     type: inline
     commands:
       - /usr/bin/setdb provision.extramb 500
       - /usr/bin/setdb restjavad.useextramb true
+EOF
+fi
+
+cat /config/cloud/runtime-init-conf.yaml > /config/cloud/runtime-init-conf-backup.yaml
+
+# Add remaining runtime_parameters:
+cat << 'EOF' >> /config/cloud/runtime-init-conf.yaml
 extension_packages:
   install_operations:
     - extensionType: do
@@ -84,6 +92,16 @@ extension_services:
 post_onboard_enabled: []
 EOF
 
+cat << 'EOF' >> /config/cloud/runtime-init-conf-backup.yaml
+extension_services:
+  service_operations:
+    - extensionType: do
+      type: url
+      value: https://raw.githubusercontent.com/F5Networks/terraform-aws-bigip-module/main/config/onboard_wo_admin.json
+post_onboard_enabled: []
+EOF
+
+
 # # Download
 #PACKAGE_URL='https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.1.0/dist/f5-bigip-runtime-init-1.1.0-1.gz.run'
 #PACKAGE_URL='https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.2.0/dist/f5-bigip-runtime-init-1.2.0-1.gz.run'
@@ -95,3 +113,7 @@ bash /var/config/rest/downloads/f5-bigip-runtime-init.gz.run -- '--cloud aws'
 # Run
 # export F5_BIGIP_RUNTIME_INIT_LOG_LEVEL=silly
 f5-bigip-runtime-init --config-file /config/cloud/runtime-init-conf.yaml
+
+sleep 5
+
+f5-bigip-runtime-init --config-file /config/cloud/runtime-init-conf-backup.yaml
