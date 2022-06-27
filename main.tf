@@ -126,6 +126,7 @@ resource "aws_network_interface" "external_private" {
   subnet_id       = local.external_private_subnet_id[count.index]
   security_groups = var.external_securitygroup_ids
   private_ips     = [local.external_private_ip_primary[count.index], local.external_private_ip_secondary[count.index]]
+  source_dest_check = var.external_source_dest_check
   tags = merge(local.tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
     }
@@ -138,6 +139,7 @@ resource "aws_network_interface" "external_private1" {
   count             = length(compact(local.external_private_ip_primary)) > 0 ? 0 : length(local.external_private_ip_primary)
   subnet_id         = local.external_private_subnet_id[count.index]
   security_groups   = var.external_securitygroup_ids
+  source_dest_check = var.external_source_dest_check
   private_ips_count = 1
   tags = merge(local.tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
