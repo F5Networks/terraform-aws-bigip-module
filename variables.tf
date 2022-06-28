@@ -23,7 +23,7 @@ variable "f5_hostname" {
 variable "f5_ami_search_name" {
   description = "BIG-IP AMI name to search for"
   type        = string
-  default     = "F5 BIGIP-16* PAYG-Best 200Mbps*"
+  default     = "F5 BIGIP-16.1.2.2* PAYG-Best Plus 25Mbps*"
   #default = "F5 Networks BIGIP-14.0.1-0.0.14 PAYG - Best 1Gbps - 20190817094829-929ca0d8-c2d7-4068-8f9a-eb75a677afed-ami-047292a9177e2e328.4"
 }
 

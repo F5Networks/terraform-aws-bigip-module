@@ -5,7 +5,7 @@
     "label": "my BIG-IP declaration for declarative onboarding",
     "Common": {
         "class": "Tenant",
-        "hostname": "{{{HOST_NAME}}}",
+        "hostname": "{{{ HOST_NAME }}}.com",
         "myDns": {
             "class": "DNS",
             "nameServers": [
