@@ -87,8 +87,43 @@ extension_packages:
 extension_services:
   service_operations:
     - extensionType: do
-      type: url
-      value: https://raw.githubusercontent.com/F5Networks/terraform-aws-bigip-module/main/config/onboard_do.json
+      type: inline
+      value:
+        schemaVersion: 1.0.0
+        class: Device
+        async: true
+        Common:
+          class: Tenant
+          hostname: '{{{HOST_NAME}}}.com'
+          myNtp:
+            class: NTP
+            servers:
+              - 0.pool.ntp.org
+            timezone: UTC
+          myDns:
+            class: DNS
+            nameServers:
+              - 169.254.169.253
+          admin:
+            class: User
+            partitionAccess:
+              all-partitions:
+                role: admin
+            password: '{{{ADMIN_PASS}}}'
+            shell: bash
+            keys:
+              - '{{{SSH_KEYS}}}'
+            userType: regular
+          '{{{USER_NAME}}}':
+            class: User
+            partitionAccess:
+              all-partitions:
+                role: admin
+            password: '{{{ADMIN_PASS}}}'
+            shell: bash
+            keys:
+              - '{{{SSH_KEYS}}}'
+            userType: regular
 post_onboard_enabled: []
 EOF
 
@@ -96,8 +131,43 @@ cat << 'EOF' >> /config/cloud/runtime-init-conf-backup.yaml
 extension_services:
   service_operations:
     - extensionType: do
-      type: url
-      value: https://raw.githubusercontent.com/F5Networks/terraform-aws-bigip-module/main/config/onboard_do.json
+      type: inline
+      value:
+        schemaVersion: 1.0.0
+        class: Device
+        async: true
+        Common:
+          class: Tenant
+          hostname: '{{{HOST_NAME}}}.com'
+          myNtp:
+            class: NTP
+            servers:
+              - 0.pool.ntp.org
+            timezone: UTC
+          myDns:
+            class: DNS
+            nameServers:
+              - 169.254.169.253
+          admin:
+            class: User
+            partitionAccess:
+              all-partitions:
+                role: admin
+            password: '{{{ADMIN_PASS}}}'
+            shell: bash
+            keys:
+              - '{{{SSH_KEYS}}}'
+            userType: regular
+          '{{{USER_NAME}}}':
+            class: User
+            partitionAccess:
+              all-partitions:
+                role: admin
+            password: '{{{ADMIN_PASS}}}'
+            shell: bash
+            keys:
+              - '{{{SSH_KEYS}}}'
+            userType: regular
 post_onboard_enabled: []
 EOF
 

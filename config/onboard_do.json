@@ -5,11 +5,11 @@
     "label": "my BIG-IP declaration for declarative onboarding",
     "Common": {
         "class": "Tenant",
-        "hostname": "{{{ HOST_NAME }}}.com",
+        "hostname": "bigip1.example.com",
         "myDns": {
             "class": "DNS",
             "nameServers": [
-                "8.8.8.8"
+                "169.254.169.253"
             ]
         },
         "myNtp": {

@@ -1,6 +1,5 @@
 > :warning: **CVE-2020-5902**: Warning: due to [CVE-2020-5902](https://support.f5.com/csp/article/K52145254), do not use Module unless using **f5_ami_search_name** input parameter. Updated images are pending publication to Marketplace. Please see [CVE-2020-5902](https://support.f5.com/csp/article/K52145254) and Cloud Provider for latest updates.
 
-
 # Deploys BIG-IP in AWS Cloud
 
 This Terraform module deploys N-nic F5 BIG-IP in AWS cloud,and with module `count` feature we can also deploy multiple instances of BIG-IP.
@@ -37,6 +36,30 @@ This module is supported in the following bigip and terraform version
 ~> **NOTE** To use AWS secret manager password,we have to enable the variable "aws_secretmanager_auth" to true and supply the secret name to variable "aws_secretmanager_secret_id" and also IAM Profile to "aws_iam_instance_profile"
 
 ~> **NOTE** End Users are responsible of the IAM profile setup, please find useful links for [IAM Setup](https://aws.amazon.com/premiumsupport/knowledge-center/restrict-ec2-iam/)
+
+## BYOL Licensing
+
+This Module uses PayGo BIG-IP image for the deployment (`default`). If you would like to use BYOL licenses, then these following steps are needed:
+
++ Find available images/versions with *BYOL* in SKU name using AWS CLI:
+
+    ```sh
+    aws ec2 describe-images --owners 679593333241 --filters "Name=name, Values=*BIGIP-16.1.3*BYOL*"
+    ```
+
+  Ex: `"aws-marketplace/F5 BIGIP-16.1.3-0.0.12 BYOL-All Modules 2Boot Loc-220607230313-5f5a1994-65df-4235-b79c-a3ea049dc1db"`
+
++ In the `variables.tf`, modify `f5_ami_search_name` with the filter value like `Name=name, Values=*BIGIP-16.1.3*BYOL*`
+
++ Add the corresponding `Registrationkeylicense key` in DO declaration( Declarative Onboarding ), this DO can be added in custom run-time-int script ( as given in examples section ) or POST a Declarative Onboarding declaration as given in [DO](https://clouddocs.f5.com/products/extensions/f5-declarative-onboarding/latest/bigip-examples.html#standalone-declaration)
+
+    ```shell
+    "myLicense": {
+      "class": "License",
+      "licenseType": "regKey",
+      "regKey": "${regKey}"
+    },
+    ```
 
 ## Custom User data
 
@@ -194,7 +217,7 @@ These variables have default values and don't have to be set to use this module.
 | f5\_password | Password of the F5  BIG-IP that will be deployed | `string` | "" |
 | f5\_hostname | Custom management hostname. Defaults to managemet public dns | `string` | "" |
 | ec2_instance_type  | AWS EC2 instance type  | `string`  | m5.large  |
-| f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-* PAYG-Best 200Mbps*  |
+| f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-*PAYG-Best 200Mbps*  |
 | aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | FALSE  |
 | aws_secretmanager_secret_id  | AWS Secret Manager Secret ID that stores the BIG-IP password  | `string`  |   |
 | aws_iam_instance_profile  | AWS IAM instance profile that can be associate for BIGIP with required permissions  | `string`  |   |
