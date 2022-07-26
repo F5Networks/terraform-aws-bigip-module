@@ -12,6 +12,10 @@ exec 1>&-
 exec 1>$npipe
 exec 2>&1
 
+# Run Immediately Before MCPD starts
+/usr/bin/setdb provision.extramb 1000
+/usr/bin/setdb restjavad.useextramb true
+
 # # create user
 # tmsh create auth user ${bigip_username} password ${bigip_password} shell tmsh partition-access replace-all-with { all-partitions { role admin } }
 
@@ -48,18 +52,14 @@ then
       type: SecretsManager
       version: AWSCURRENT
       secretId: ${bigip_password}
+pre_onboard_enabled: []
 EOF
 else
    cat << 'EOF' >> /config/cloud/runtime-init-conf.yaml
   - name: ADMIN_PASS
     type: static
     value: ${bigip_password}
-pre_onboard_enabled:
-  - name: provision_rest
-    type: inline
-    commands:
-      - /usr/bin/setdb provision.extramb 500
-      - /usr/bin/setdb restjavad.useextramb true
+pre_onboard_enabled: []
 EOF
 fi
 
@@ -98,12 +98,16 @@ extension_services:
           myNtp:
             class: NTP
             servers:
-              - 0.pool.ntp.org
+              - 169.254.169.253
             timezone: UTC
           myDns:
             class: DNS
             nameServers:
               - 169.254.169.253
+          myProvisioning:
+            class: Provision
+            asm: nominal
+            ltm: nominal
           admin:
             class: User
             partitionAccess:
@@ -142,12 +146,15 @@ extension_services:
           myNtp:
             class: NTP
             servers:
-              - 0.pool.ntp.org
+              - 169.254.169.253
             timezone: UTC
           myDns:
             class: DNS
             nameServers:
               - 169.254.169.253
+          myProvisioning:
+            class: Provision
+            ltm: nominal
           admin:
             class: User
             partitionAccess:
