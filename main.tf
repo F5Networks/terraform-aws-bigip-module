@@ -122,10 +122,10 @@ resource "aws_network_interface" "public1" {
 #This resource is for static  primary and secondary private ips
 
 resource "aws_network_interface" "external_private" {
-  count           = length(compact(local.external_private_ip_primary)) > 0 ? length(local.external_private_subnet_id) : 0
-  subnet_id       = local.external_private_subnet_id[count.index]
-  security_groups = var.external_securitygroup_ids
-  private_ips     = [local.external_private_ip_primary[count.index], local.external_private_ip_secondary[count.index]]
+  count             = length(compact(local.external_private_ip_primary)) > 0 ? length(local.external_private_subnet_id) : 0
+  subnet_id         = local.external_private_subnet_id[count.index]
+  security_groups   = var.external_securitygroup_ids
+  private_ips       = [local.external_private_ip_primary[count.index], local.external_private_ip_secondary[count.index]]
   source_dest_check = var.external_source_dest_check
   tags = merge(local.tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
