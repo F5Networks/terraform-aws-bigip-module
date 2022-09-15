@@ -91,10 +91,9 @@ resource "aws_eip" "vip" {
 #This resource is for static  primary and secondary private ips
 
 resource "aws_network_interface" "public" {
-  count           = length(compact(local.external_public_private_ip_primary)) > 0 ? length(local.external_public_subnet_id) : 0
-  subnet_id       = local.external_public_subnet_id[count.index]
-  security_groups = [local.external_public_security_id[count.index]]
-  # security_groups         = var.external_securitygroup_ids
+  count                   = length(compact(local.external_public_private_ip_primary)) > 0 ? length(local.external_public_subnet_id) : 0
+  subnet_id               = local.external_public_subnet_id[count.index]
+  security_groups         = [local.external_public_security_id[count.index]]
   private_ip_list_enabled = true
   private_ip_list         = [local.external_public_private_ip_primary[count.index], local.external_public_private_ip_secondary[count.index]]
   source_dest_check       = var.external_source_dest_check
@@ -107,10 +106,9 @@ resource "aws_network_interface" "public" {
 #This resource is for dynamic  primary and secondary private ips
 
 resource "aws_network_interface" "public1" {
-  count           = length(compact(local.external_public_private_ip_primary)) > 0 ? 0 : length(local.external_public_subnet_id)
-  subnet_id       = local.external_public_subnet_id[count.index]
-  security_groups = [local.external_public_security_id[count.index]]
-  # security_groups   = var.external_securitygroup_ids
+  count             = length(compact(local.external_public_private_ip_primary)) > 0 ? 0 : length(local.external_public_subnet_id)
+  subnet_id         = local.external_public_subnet_id[count.index]
+  security_groups   = [local.external_public_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
   private_ips_count = 1
   tags = merge(local.tags, {
@@ -125,10 +123,9 @@ resource "aws_network_interface" "public1" {
 #This resource is for static  primary and secondary private ips
 
 resource "aws_network_interface" "external_private" {
-  count           = length(compact(local.external_private_ip_primary)) > 0 ? length(local.external_private_subnet_id) : 0
-  subnet_id       = local.external_private_subnet_id[count.index]
-  security_groups = [local.external_private_security_id[count.index]]
-  # security_groups         = var.external_securitygroup_ids
+  count                   = length(compact(local.external_private_ip_primary)) > 0 ? length(local.external_private_subnet_id) : 0
+  subnet_id               = local.external_private_subnet_id[count.index]
+  security_groups         = [local.external_private_security_id[count.index]]
   private_ip_list_enabled = true
   private_ip_list         = [local.external_private_ip_primary[count.index], local.external_private_ip_secondary[count.index]]
   source_dest_check       = var.external_source_dest_check
@@ -141,10 +138,9 @@ resource "aws_network_interface" "external_private" {
 #This resource is for dynamic  primary and secondary private ips
 
 resource "aws_network_interface" "external_private1" {
-  count           = length(compact(local.external_private_ip_primary)) > 0 ? 0 : length(local.external_private_ip_primary)
-  subnet_id       = local.external_private_subnet_id[count.index]
-  security_groups = [local.external_private_security_id[count.index]]
-  # security_groups   = var.external_securitygroup_ids
+  count             = length(compact(local.external_private_ip_primary)) > 0 ? 0 : length(local.external_private_ip_primary)
+  subnet_id         = local.external_private_subnet_id[count.index]
+  security_groups   = [local.external_private_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
   private_ips_count = 1
   tags = merge(local.tags, {
