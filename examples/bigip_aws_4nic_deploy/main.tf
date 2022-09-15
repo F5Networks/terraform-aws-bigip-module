@@ -135,6 +135,25 @@ module "external-network-security-group-public" {
 }
 
 #
+# Create a security group for BIG-IP
+#
+module "external-network-security-group-public2" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = format("%s-external-public2-nsg-%s", var.prefix, random_id.id.hex)
+  description = "Security group for BIG-IP "
+  vpc_id      = module.vpc.vpc_id
+
+  ingress_cidr_blocks = var.AllowedIPs
+  ingress_rules       = ["http-80-tcp", "https-443-tcp"]
+
+  # Allow ec2 instances outbound Internet connectivity
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules       = ["all-all"]
+
+}
+
+#
 # Create a security group for BIG-IP Management
 #
 module "mgmt-network-security-group" {
@@ -192,7 +211,7 @@ module "bigip" {
   aws_secretmanager_secret_id = aws_secretsmanager_secret.bigip.id
   mgmt_subnet_ids             = [{ "subnet_id" = aws_subnet.mgmt.id, "public_ip" = true, "private_ip_primary" = "" }]
   mgmt_securitygroup_ids      = [module.mgmt-network-security-group.security_group_id]
-  external_securitygroup_ids  = [module.external-network-security-group-public.security_group_id, module.external-network-security-group-public.security_group_id]
+  external_securitygroup_ids  = [module.external-network-security-group-public.security_group_id, module.external-network-security-group-public2.security_group_id]
   internal_securitygroup_ids  = [module.internal-network-security-group-public.security_group_id]
   external_subnet_ids         = [{ "subnet_id" = aws_subnet.external-public.id, "public_ip" = true, "private_ip_primary" = "", "private_ip_secondary" = "" }, { "subnet_id" = aws_subnet.external-subnet2.id, "public_ip" = false, "private_ip_primary" = "", "private_ip_secondary" = "" }]
   internal_subnet_ids         = [{ "subnet_id" = aws_subnet.internal.id, "public_ip" = false, "private_ip_primary" = "" }]

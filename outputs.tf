@@ -62,3 +62,13 @@ output "onboard_do" {
 output "bigip_instance_ids" {
   value = concat(aws_instance.f5_bigip.*.id)[0]
 }
+
+output "bigip_nic_ids" {
+  description = "List of BIG-IP network interface IDs"
+  value = {
+    mgmt_private     = length(compact(local.mgmt_public_private_ip_primary)) > 0 ? aws_network_interface.mgmt.*.id : aws_network_interface.mgmt1.*.id
+    public_private   = length(concat(try(aws_network_interface.public.*.private_ip, []))) > 0 ? aws_network_interface.public.*.id : aws_network_interface.public1.*.id
+    external_private = length(compact(local.external_private_ip_primary)) > 0 ? aws_network_interface.external_private.*.id : aws_network_interface.external_private1.*.id
+    internal_private = length(compact(local.internal_private_ip_primary)) > 0 ? aws_network_interface.private.*.id : aws_network_interface.private1.*.id
+  }
+}

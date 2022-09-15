@@ -10,12 +10,12 @@ This module is supported from Terraform 0.13 version onwards.
 
 It is tested against following provider/terraform versions
 
-Terraform v0.14.0
+Terraform v1.1.8
 
-+ provider registry.terraform.io/hashicorp/aws v3.8.0
-+ provider registry.terraform.io/hashicorp/random v2.3.0
-+ provider registry.terraform.io/hashicorp/template v2.1.2
-+ provider registry.terraform.io/hashicorp/null v2.1.2
++ provider registry.terraform.io/hashicorp/aws v4.26.0
++ provider registry.terraform.io/hashicorp/random v3.4.3
++ provider registry.terraform.io/hashicorp/time v0.8.0
++ provider registry.terraform.io/hashicorp/null v3.1.1
 
 ## Releases and Versioning
 
@@ -251,6 +251,7 @@ These variables have default values and don't have to be set to use this module.
 | private\_addresses | It is List of Maps all privates address assigned for Mgmt/External-Public/External-private/Internal|
 | public\_addresses | It is List of Maps all public address assigned for External-public-primary/ External-public-secondary|
 | bigip\_instance\_ids | List of BIG-IP AWS Instance IDs Created |
+| bigip\_nic\_ids | List of BIG-IP network interface IDs |
 
 ~ **NOTE:** IF you want to access External interface private IPs, you need to filter it form `private_addresses` map like below:
 
