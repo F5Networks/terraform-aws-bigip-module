@@ -12,7 +12,7 @@ It is tested against following provider/terraform versions
 
 Terraform v1.1.8
 
-+ provider registry.terraform.io/hashicorp/aws v4.26.0
++ provider registry.terraform.io/hashicorp/aws v4.32.0
 + provider registry.terraform.io/hashicorp/random v3.4.3
 + provider registry.terraform.io/hashicorp/time v0.8.0
 + provider registry.terraform.io/hashicorp/null v3.1.1
