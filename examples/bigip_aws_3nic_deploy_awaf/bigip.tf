@@ -2,7 +2,7 @@ terraform {
   required_providers {
     bigip = {
       source  = "F5Networks/bigip"
-      version = "1.15.0"
+      version = "1.15.1"
     }
   }
 }
@@ -44,7 +44,7 @@ resource "bigip_waf_policy" "testgraphql" {
   signatures_settings {
     signature_staging = false
   }
-  graphql_profile {
+  graphql_profiles {
     name = "graphql_profile"
   }
   file_types {
