@@ -27,6 +27,8 @@ mkdir -p /config/cloud
 
 cat << 'EOF' > /config/cloud/runtime-init-conf.yaml
 ---
+controls:
+  extensionInstallDelayInMs: 60000
 runtime_parameters:
   - name: USER_NAME
     type: static
@@ -189,7 +191,5 @@ bash /var/config/rest/downloads/f5-bigip-runtime-init.gz.run -- '--cloud aws'
 # Run
 # export F5_BIGIP_RUNTIME_INIT_LOG_LEVEL=silly
 f5-bigip-runtime-init --config-file /config/cloud/runtime-init-conf.yaml
-
-sleep 5
-
+sleep 2
 f5-bigip-runtime-init --config-file /config/cloud/runtime-init-conf-backup.yaml
