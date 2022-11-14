@@ -15,12 +15,12 @@ output "mgmtPort" {
 
 # BIG-IP Username
 output "f5_username" {
-  value = module.bigip.*.f5_username
+  value = var.f5_username
 }
 
 # BIG-IP Password
 output "bigip_password" {
-  value = module.bigip.*.bigip_password
+  value = random_string.password.result
 }
 
 output "mgmtPublicURL" {
@@ -35,7 +35,7 @@ output "vpc_id" {
 
 output "private_addresses" {
   description = "List of BIG-IP private addresses"
-  value       = flatten(module.bigip.*.private_addresses[0].public_private.private_ip)[0]
+  value       = module.bigip.*.private_addresses
 }
 
 output "public_addresses" {

@@ -199,7 +199,24 @@ module "bigip" {
   internal_securitygroup_ids = [module.internal-network-security-group-public.security_group_id]
   external_subnet_ids        = [{ "subnet_id" = aws_subnet.external-public.id, "public_ip" = true, "private_ip_primary" = "", "private_ip_secondary" = "" }]
   internal_subnet_ids        = [{ "subnet_id" = aws_subnet.internal.id, "public_ip" = false, "private_ip_primary" = "" }]
-  sleep_time                 = "1000s"
+  custom_user_data = templatefile("custom_onboard_big.tmpl", {
+    bigip_username         = var.f5_username
+    ssh_keypair            = aws_key_pair.generated_key.key_name
+    aws_secretmanager_auth = false
+    bigip_password         = random_string.password.result
+    INIT_URL               = var.INIT_URL,
+    DO_URL                 = var.DO_URL,
+    DO_VER                 = format("v%s", split("-", split("/", var.DO_URL)[length(split("/", var.DO_URL)) - 1])[3])
+    AS3_URL                = var.AS3_URL,
+    AS3_VER                = format("v%s", split("-", split("/", var.AS3_URL)[length(split("/", var.AS3_URL)) - 1])[2])
+    TS_VER                 = format("v%s", split("-", split("/", var.TS_URL)[length(split("/", var.TS_URL)) - 1])[2])
+    TS_URL                 = var.TS_URL,
+    CFE_URL                = var.CFE_URL,
+    CFE_VER                = format("v%s", split("-", split("/", var.CFE_URL)[length(split("/", var.CFE_URL)) - 1])[3])
+    FAST_URL               = var.FAST_URL,
+    FAST_VER               = format("v%s", split("-", split("/", var.FAST_URL)[length(split("/", var.FAST_URL)) - 1])[3])
+  })
+  sleep_time = "1000s"
   depends_on = [aws_route_table_association.route_table_mgmt, aws_route_table_association.route_table_external,
     aws_route_table_association.route_table_internal, module.external-network-security-group-public,
   module.internal-network-security-group-public, module.mgmt-network-security-group]
