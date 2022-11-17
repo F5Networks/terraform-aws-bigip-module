@@ -65,7 +65,7 @@ resource "aws_eip" "ext-pub" {
   network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
   vpc               = true
   depends_on        = [aws_eip.mgmt]
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-PublicIp", count.index)
     }
   )
@@ -79,7 +79,7 @@ resource "aws_eip" "vip" {
   network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[0].id : aws_network_interface.public1[0].id
   vpc                       = true
   associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? element(compact([for x in tolist(aws_network_interface.public[0].private_ips) : x == aws_network_interface.public[0].private_ip ? "" : x]), 0) : element(compact([for x in tolist(aws_network_interface.public1[0].private_ips) : x == aws_network_interface.public1[0].private_ip ? "" : x]), 0)
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-2ndExternal-PublicIp", count.index)
     }
   )
@@ -97,7 +97,7 @@ resource "aws_network_interface" "public" {
   private_ip_list_enabled = true
   private_ip_list         = [local.external_public_private_ip_primary[count.index], local.external_public_private_ip_secondary[count.index]]
   source_dest_check       = var.external_source_dest_check
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Public-Interface", count.index)
     }
   )
@@ -111,7 +111,7 @@ resource "aws_network_interface" "public1" {
   security_groups   = [local.external_public_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
   private_ips_count = 1
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Public-Interface", count.index)
     }
   )
@@ -129,7 +129,7 @@ resource "aws_network_interface" "external_private" {
   private_ip_list_enabled = true
   private_ip_list         = [local.external_private_ip_primary[count.index], local.external_private_ip_secondary[count.index]]
   source_dest_check       = var.external_source_dest_check
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
     }
   )
@@ -143,7 +143,7 @@ resource "aws_network_interface" "external_private1" {
   security_groups   = [local.external_private_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
   private_ips_count = 1
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
     }
   )
@@ -160,7 +160,7 @@ resource "aws_network_interface" "private" {
   private_ip_list_enabled = true
   private_ip_list         = [local.internal_private_ip_primary[count.index]]
   source_dest_check       = var.internal_source_dest_check
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.internalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-Internal-Interface", count.index)
     }
   )
@@ -174,7 +174,7 @@ resource "aws_network_interface" "private1" {
   security_groups   = var.internal_securitygroup_ids
   private_ips_count = 0
   source_dest_check = var.internal_source_dest_check
-  tags = merge(local.tags, {
+  tags = merge(local.tags, var.internalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-Internal-Interface", count.index)
     }
   )

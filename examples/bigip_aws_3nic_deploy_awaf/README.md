@@ -4,7 +4,7 @@
 
 ### Demo Diagram :
 
-
+![Demo Diagram](./images/awaf_graphql_demo_diagram.png)
 
 ### Module Usage :
 
