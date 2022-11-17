@@ -180,6 +180,21 @@ variable "tags" {
   type        = map(any)
   default     = {}
 }
+variable "externalnic_failover_tags" {
+  description = "key:value tags to apply to external nic resources built by the module"
+  type        = any
+  default = {
+    "f5_cloud_failover_label" : "ravicfe"
+  }
+}
+
+variable "internalnic_failover_tags" {
+  description = "key:value tags to apply to internal nic resources built by the module"
+  type        = any
+  default = {
+    "f5_cloud_failover_label" : "ravicfe"
+  }
+}
 
 variable "sleep_time" {
   type        = string
