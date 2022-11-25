@@ -183,7 +183,7 @@ module "bigip" {
   mgmt_securitygroup_ids      = [module.mgmt-network-security-group.security_group_id]
   external_securitygroup_ids  = [module.external-network-security-group-public.security_group_id]
   internal_securitygroup_ids  = [module.internal-network-security-group-public.security_group_id]
-  external_subnet_ids         = [{ "subnet_id" = aws_subnet.external-public.id, "public_ip" = true, "private_ip_primary" = "", "private_ip_secondary" = "" }]
+  external_subnet_ids         = [{ "subnet_id" = aws_subnet.external-public.id, "public_ip" = true, "private_ip_primary" = "10.0.2.90", "private_ip_secondary" = "" }]
   internal_subnet_ids         = [{ "subnet_id" = aws_subnet.internal.id, "public_ip" = false, "private_ip_primary" = "" }]
   //depends_on                  = [aws_secretsmanager_secret.bigip]
 }

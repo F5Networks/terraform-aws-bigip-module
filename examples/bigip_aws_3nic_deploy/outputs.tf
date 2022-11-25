@@ -46,6 +46,11 @@ output "bigip_nic_ids" {
   description = "List of BIG-IP network interface IDs"
   value       = module.bigip.*.bigip_nic_ids
 }
+
+output "bigip_eip_ids" {
+  description = "List of BIG-IP Elastic IP IDs"
+  value       = module.bigip.*.bigip_eip_ids
+}
 // output tls_privatekey {
 //   value = tls_private_key.example.private_key_pem
 // }
