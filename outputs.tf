@@ -30,19 +30,19 @@ output "private_addresses" {
   value = {
     mgmt_private = {
       private_ip  = length(compact(local.mgmt_public_private_ip_primary)) > 0 ? aws_network_interface.mgmt.*.private_ip : aws_network_interface.mgmt1.*.private_ip
-      private_ips = length(compact(local.mgmt_public_private_ip_primary)) > 0 ? aws_network_interface.mgmt.*.private_ips : aws_network_interface.mgmt1.*.private_ips
+      private_ips = length(compact(local.mgmt_public_private_ip_primary)) > 0 ? aws_network_interface.mgmt.*.private_ip_list : aws_network_interface.mgmt1.*.private_ip_list
     }
     public_private = {
       private_ip  = length(concat(try(aws_network_interface.public.*.private_ip, []))) > 0 ? aws_network_interface.public.*.private_ip : aws_network_interface.public1.*.private_ip
-      private_ips = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public.*.private_ips : aws_network_interface.public1.*.private_ips
+      private_ips = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public.*.private_ip_list : aws_network_interface.public1.*.private_ip_list
     }
     external_private = {
       private_ip  = length(compact(local.external_private_ip_primary)) > 0 ? aws_network_interface.external_private.*.private_ip : aws_network_interface.external_private1.*.private_ip
-      private_ips = length(compact(local.external_private_ip_primary)) > 0 ? aws_network_interface.external_private.*.private_ips : aws_network_interface.external_private1.*.private_ips
+      private_ips = length(compact(local.external_private_ip_primary)) > 0 ? aws_network_interface.external_private.*.private_ip_list : aws_network_interface.external_private1.*.private_ip_list
     }
     internal_private = {
       private_ip  = length(compact(local.internal_private_ip_primary)) > 0 ? aws_network_interface.private.*.private_ip : aws_network_interface.private1.*.private_ip
-      private_ips = length(compact(local.internal_private_ip_primary)) > 0 ? aws_network_interface.private.*.private_ips : aws_network_interface.private1.*.private_ips
+      private_ips = length(compact(local.internal_private_ip_primary)) > 0 ? aws_network_interface.private.*.private_ip_list : aws_network_interface.private1.*.private_ip_list
     }
   }
 }
@@ -70,5 +70,14 @@ output "bigip_nic_ids" {
     public_private   = length(concat(try(aws_network_interface.public.*.private_ip, []))) > 0 ? aws_network_interface.public.*.id : aws_network_interface.public1.*.id
     external_private = length(compact(local.external_private_ip_primary)) > 0 ? aws_network_interface.external_private.*.id : aws_network_interface.external_private1.*.id
     internal_private = length(compact(local.internal_private_ip_primary)) > 0 ? aws_network_interface.private.*.id : aws_network_interface.private1.*.id
+  }
+}
+
+output "bigip_eip_ids" {
+  description = "List of BIG-IP Elastic IP IDs"
+  value = {
+    mgmt_eip             = aws_eip.mgmt.*.id
+    public_eip           = length(local.external_public_subnet_id) > 0 ? aws_eip.ext-pub.*.id : []
+    public_eip_secondary = length(compact(local.external_public_private_ip_secondary)) > 0 ? aws_eip.vip.*.id : []
   }
 }
