@@ -61,7 +61,7 @@ resource "aws_eip" "mgmt" {
 # add an elastic IP to the BIG-IP External Public interface
 #
 resource "aws_eip" "ext-pub" {
-  count             = length(local.external_public_subnet_id)
+  count             = var.cfe_secondary_vip_disable ? 0 : length(local.external_public_subnet_id)
   network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
   vpc               = true
   depends_on        = [aws_eip.mgmt]
@@ -75,7 +75,7 @@ resource "aws_eip" "ext-pub" {
 # add an elastic IP to the BIG-IP External interface secondary IP [only for first external public interface]
 #
 resource "aws_eip" "vip" {
-  count                     = length(local.external_public_subnet_id) > 0 ? (length(compact(local.external_public_private_ip_secondary)) > 0 ? 1 : 0) : 0
+  count                     = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? (length(compact(local.external_public_private_ip_secondary)) > 0 ? 1 : 0) : 0)
   network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[0].id : aws_network_interface.public1[0].id
   vpc                       = true
   associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? element(compact([for x in tolist(aws_network_interface.public[0].private_ip_list) : x == aws_network_interface.public[0].private_ip ? "" : x]), 0) : element(compact([for x in tolist(aws_network_interface.public1[0].private_ip_list) : x == aws_network_interface.public1[0].private_ip ? "" : x]), 0)
