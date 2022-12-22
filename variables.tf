@@ -117,14 +117,14 @@ variable "internal_securitygroup_ids" {
 variable "DO_URL" {
   description = "URL to download the BIG-IP Declarative Onboarding module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.33.0/f5-declarative-onboarding-1.33.0-7.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.34.0/f5-declarative-onboarding-1.34.0-5.noarch.rpm"
 }
 ## Please check and update the latest AS3 URL from https://github.com/F5Networks/f5-appsvcs-extension/releases/latest 
 # always point to a specific version in order to avoid inadvertent configuration inconsistency
 variable "AS3_URL" {
   description = "URL to download the BIG-IP Application Service Extension 3 (AS3) module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.40.0/f5-appsvcs-3.40.0-5.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.41.0/f5-appsvcs-3.41.0-1.noarch.rpm"
 }
 
 ## Please check and update the latest TS URL from https://github.com/F5Networks/f5-telemetry-streaming/releases/latest 
@@ -148,14 +148,14 @@ variable "CFE_URL" {
 variable "FAST_URL" {
   description = "URL to download the BIG-IP FAST module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.21.0/f5-appsvcs-templates-1.21.0-1.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.22.0/f5-appsvcs-templates-1.22.0-1.noarch.rpm"
 }
 ## Please check and update the latest runtime init URL from https://github.com/F5Networks/f5-bigip-runtime-init/releases/latest
 # always point to a specific version in order to avoid inadvertent configuration inconsistency
 variable "INIT_URL" {
   description = "URL to download the BIG-IP runtime init"
   type        = string
-  default     = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.5.1/dist/f5-bigip-runtime-init-1.5.1-1.gz.run"
+  default     = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.5.2/dist/f5-bigip-runtime-init-1.5.2-1.gz.run"
 }
 variable "libs_dir" {
   description = "Directory on the BIG-IP to download the A&O Toolchain into"
@@ -183,17 +183,19 @@ variable "tags" {
 variable "externalnic_failover_tags" {
   description = "key:value tags to apply to external nic resources built by the module"
   type        = any
-  default = {
-    "f5_cloud_failover_label" : "ravicfe"
-  }
+  default     = {}
 }
 
 variable "internalnic_failover_tags" {
   description = "key:value tags to apply to internal nic resources built by the module"
   type        = any
-  default = {
-    "f5_cloud_failover_label" : "ravicfe"
-  }
+  default     = {}
+}
+
+variable "cfe_secondary_vip_disable" {
+  type        = bool
+  description = "Disable Externnal Public IP Association to instance based on this flag (Usecase CFE Scenario)"
+  default     = false
 }
 
 variable "sleep_time" {
