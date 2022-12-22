@@ -61,7 +61,7 @@ resource "aws_eip" "mgmt" {
 # add an elastic IP to the BIG-IP External Public interface
 #
 resource "aws_eip" "ext-pub" {
-  count             = var.cfe_secondary_vip_disable ? 0 : length(local.external_public_subnet_id)
+  count             = length(local.external_public_subnet_id)
   network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
   vpc               = true
   depends_on        = [aws_eip.mgmt]
