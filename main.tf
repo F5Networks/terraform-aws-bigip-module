@@ -61,21 +61,23 @@ resource "aws_eip" "mgmt" {
 # add an elastic IP to the BIG-IP External Public interface
 #
 resource "aws_eip" "ext-pub" {
-  count             = length(local.external_public_subnet_id)
-  network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
-  vpc               = true
-  depends_on        = [aws_eip.mgmt]
+  count                     = length(local.external_public_subnet_id)
+  network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
+  vpc                       = true
+  associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].private_ip : aws_network_interface.public1[count.index].private_ip
   tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-PublicIp", count.index)
     }
   )
+  depends_on = [aws_eip.mgmt]
 }
 
 #
 # add an elastic IP to the BIG-IP External interface secondary IP [only for first external public interface]
 #
 resource "aws_eip" "vip" {
-  count                     = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? (length(compact(local.external_public_private_ip_secondary)) > 0 ? 1 : 0) : 0)
+  count = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? 1 : 0)
+  # count                     = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? (length(compact(local.external_public_private_ip_secondary)) > 0 ? 1 : 0) : 0)
   network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[0].id : aws_network_interface.public1[0].id
   vpc                       = true
   associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? element(compact([for x in tolist(aws_network_interface.public[0].private_ip_list) : x == aws_network_interface.public[0].private_ip ? "" : x]), 0) : element(compact([for x in tolist(aws_network_interface.public1[0].private_ip_list) : x == aws_network_interface.public1[0].private_ip ? "" : x]), 0)
@@ -110,6 +112,8 @@ resource "aws_network_interface" "public1" {
   subnet_id         = local.external_public_subnet_id[count.index]
   security_groups   = [local.external_public_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
+  # private_ip_list_enabled = true
+  # private_ip_list         = []
   private_ips_count = 1
   tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Public-Interface", count.index)
@@ -142,6 +146,8 @@ resource "aws_network_interface" "external_private1" {
   subnet_id         = local.external_private_subnet_id[count.index]
   security_groups   = [local.external_private_security_id[count.index]]
   source_dest_check = var.external_source_dest_check
+  # private_ip_list_enabled = true
+  # private_ip_list         = []
   private_ips_count = 1
   tags = merge(local.tags, var.externalnic_failover_tags, {
     Name = format("%s-%d", "BIGIP-External-Private-Interface", count.index)
