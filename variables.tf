@@ -117,14 +117,14 @@ variable "internal_securitygroup_ids" {
 variable "DO_URL" {
   description = "URL to download the BIG-IP Declarative Onboarding module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.34.0/f5-declarative-onboarding-1.34.0-5.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-declarative-onboarding/releases/download/v1.35.0/f5-declarative-onboarding-1.35.0-6.noarch.rpm"
 }
 ## Please check and update the latest AS3 URL from https://github.com/F5Networks/f5-appsvcs-extension/releases/latest 
 # always point to a specific version in order to avoid inadvertent configuration inconsistency
 variable "AS3_URL" {
   description = "URL to download the BIG-IP Application Service Extension 3 (AS3) module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v3.41.0/f5-appsvcs-3.41.0-1.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-appsvcs-extension/releases/download/v.3.42.0/f5-appsvcs-3.42.0-5.noarch.rpm"
 }
 
 ## Please check and update the latest TS URL from https://github.com/F5Networks/f5-telemetry-streaming/releases/latest 
@@ -148,7 +148,7 @@ variable "CFE_URL" {
 variable "FAST_URL" {
   description = "URL to download the BIG-IP FAST module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.22.0/f5-appsvcs-templates-1.22.0-1.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-appsvcs-templates/releases/download/v1.23.0/f5-appsvcs-templates-1.23.0-1.noarch.rpm"
 }
 ## Please check and update the latest runtime init URL from https://github.com/F5Networks/f5-bigip-runtime-init/releases/latest
 # always point to a specific version in order to avoid inadvertent configuration inconsistency
