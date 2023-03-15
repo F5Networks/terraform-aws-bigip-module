@@ -1,48 +1,51 @@
-## Deploys F5 BIG-IP AWS Cloud
+# Deploys F5 BIG-IP AWS Cloud
 
-This Terraform module deploys 1-NIC BIG-IP in AWS and by using module count feature we can also deploy multiple BIGIP instances(default value of count as 1 ) with the following characteristics:
-
-BIG-IP 1 Nic as management interface associated with user provided subnet and security-group
-
-
-## Steps to clone and use the provisioner locally
-
-```
-$ git clone https://github.com/f5devcentral/terraform-aws-bigip-module
-$ cd terraform-aws-bigip-module/examples/bigip_aws_1nic_deploy/
-
-```
-
-- Then follow the stated process in Example Usage below
+* This Terraform module example deploys 1-NIC BIG-IP in AWS cloud. 
+* Using module `count` feature we can also deploy multiple BIGIP instances(default value of `count` is **1**)
+* Management interface associated with user provided **mgmt_subnet_ids** and **mgmt_securitygroup_ids**
+* Random generated `password` for login to BIG-IP
 
 ## Example Usage
 
->Modify terraform.tfvars according to the requirement by changing `region` and `AllowedIPs` variables as follows
-
-```
-region = "ap-south-1"
-AllowedIPs = ["0.0.0.0/0"]
-```
-Next, Run the following commands to create and destroy your configuration
-
-```
-$ terraform init
-$ terraform plan
-$ terraform apply
-$ terraform destroy
-
+```hcl
+module "bigip" {
+  source                 = "F5Networks/bigip-module/aws"
+  count                  = var.instance_count
+  prefix                 = format("%s-1nic", var.prefix)
+  ec2_key_name           = aws_key_pair.generated_key.key_name
+  aws_secretmanager_auth      = true
+  aws_secretmanager_secret_id = aws_secretsmanager_secret.bigip.id
+  aws_iam_instance_profile    = aws_iam_instance_profile.instance_profile.name
+  mgmt_subnet_ids        = [{ "subnet_id" = aws_subnet.mgmt.id, "public_ip" = true, "private_ip_primary" = "" }]
+  mgmt_securitygroup_ids = [module.mgmt-network-security-group.security_group_id]
+}
 ```
 
-#### Optional Input Variables
+* Modify `terraform.tfvars` according to the requirement by changing `region` and `AllowedIPs` variables as follows:
+
+    ```hcl
+    region = "ap-south-1"
+    AllowedIPs = ["0.0.0.0/0"]
+    ```
+
+* Next, run the following commands to create and destroy your configuration
+
+    ```shell
+    $terraform init
+    $terraform plan
+    $terraform apply
+    $terraform destroy
+    ```
+
+### Optional Input Variables
 
 | Name | Description | Type | Default |
 |------|-------------|------|---------|
 | prefix | Prefix for resources created by this module | `string` | tf-aws-bigip |
 | cidr | aws VPC CIDR | `string` | 10.2.0.0/16 |
 | availabilityZones | If you want the VM placed in an Availability Zone, and the AWS region you are deploying to supports it, specify the numbers of the existing Availability Zone you want to use | `List` | ["us-east-1a"] |
-| instance_count | Number of Bigip instances to create | `number` | 1 |
 
-#### Output Variables
+### Output Variables
 
 | Name | Description |
 |------|-------------|
@@ -56,8 +59,11 @@ $ terraform destroy
 | public\_addresses | List of BIG-IP public addresses |
 | vpc\_id | VPC Id where BIG-IP Deployed |
 
+~>**NOTE:** A local json file will get generated which contains the DO declaration
 
+#### Steps to clone and use the module example locally
 
-```
-NOTE: A local json file will get generated which contains the DO declaration
+```shell
+$git clone https://github.com/F5Networks/terraform-aws-bigip-module
+$cd terraform-aws-bigip-module/examples/bigip_aws_iam_profile/
 ```
