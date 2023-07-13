@@ -1,6 +1,3 @@
-
-~> **WARNING** Due to F5 vulnerabilities listed in [K97843387](https://support.f5.com/csp/article/K97843387), **DO NOT USE** Module unless using **f5_ami_search_name** input parameter. Updated images are pending publication to Marketplace. Please see [K97843387](https://support.f5.com/csp/article/K97843387) and Cloud Provider for latest updates.
-
 # Deploys BIG-IP in AWS Cloud
 
 This Terraform module deploys N-nic F5 BIG-IP in AWS cloud,and with module `count` feature we can also deploy multiple instances of BIG-IP.
@@ -24,9 +21,9 @@ This module is supported in the following bigip and terraform version
 
 | BIGIP version | Terraform 1.X | Terraform 0.14 |
 |---------------|----------------|----------------|
+| BIG-IP 17.x   |      X         |      X         |
 | BIG-IP 16.x   |      X         |      X         |
 | BIG-IP 15.x   |      X         |      X         |
-| BIG-IP 14.x   |      X         |      X         |
 
 ## Password Management
 

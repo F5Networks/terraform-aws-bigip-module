@@ -23,7 +23,7 @@ variable "f5_hostname" {
 variable "f5_ami_search_name" {
   description = "BIG-IP AMI name to search for"
   type        = string
-  default     = "F5 BIGIP-17.1.0.1* PAYG-Best Plus 25Mbps*"
+  default     = "F5 BIGIP-17.1.0.2* PAYG-Best Plus 25Mbps*"
 }
 
 variable "ec2_instance_type" {
