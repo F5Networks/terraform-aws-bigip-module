@@ -199,6 +199,9 @@ resource "aws_instance" "f5_bigip" {
 
   root_block_device {
     delete_on_termination = true
+    encrypted = var.ebs_volume_encryption
+    kms_key_id = var.ebs_volume_kms_key_arn
+    volume_type = var.ebs_volume_type
   }
 
   # set the mgmt interface

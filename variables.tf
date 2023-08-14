@@ -37,6 +37,24 @@ variable "ec2_key_name" {
   type        = string
 }
 
+variable "ebs_volume_encryption" {
+  description = "Whether to enable encryption on the EBS volume"
+  type        = bool
+  default     = false
+}
+
+variable "ebs_volume_kms_key_arn" {
+  description = "The ARN of the KMS key for volume encryption when using a customer managed key"
+  type        = string
+  default     = null
+}
+
+variable "ebs_volume_type" {
+  description = "The EBS volume type to use for the root volume"
+  type        = string
+  default     = "gp2"
+}
+
 variable "aws_secretmanager_auth" {
   description = "Whether to use secret manager to pass authentication"
   type        = bool
