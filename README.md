@@ -215,8 +215,11 @@ These variables have default values and don't have to be set to use this module.
 | f5\_password | Password of the F5  BIG-IP that will be deployed | `string` | "" |
 | f5\_hostname | Custom management hostname. Defaults to managemet public dns | `string` | "" |
 | ec2_instance_type  | AWS EC2 instance type  | `string`  | m5.large  |
+| ebs_volume_encryption  | Whether to enable encryption on the EBS volume  | `bool`  | false  |
+| ebs_volume_kms_key_arn  | The ARN of the KMS key for volume encryption when using a customer managed key  | `string`  |      |
+| ebs_volume_type  | The EBS volume type to use for the root volume  | `string`  | gp2   |
 | f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-*PAYG-Best 200Mbps*  |
-| aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | FALSE  |
+| aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | false  |
 | aws_secretmanager_secret_id  | AWS Secret Manager Secret ID that stores the BIG-IP password  | `string`  |   |
 | aws_iam_instance_profile  | AWS IAM instance profile that can be associate for BIGIP with required permissions  | `string`  |   |
 | DO_URL | URL to download the BIG-IP Declarative Onboarding module | `string` | `latest` Note: don't change name of ATC tools rpm file |
@@ -235,7 +238,7 @@ These variables have default values and don't have to be set to use this module.
 | tags | `key:value` tags to apply to resources built by the module | `map`  |   {}   |
 | externalnic_failover_tags | `key:value` tags to apply to external nic resources built by the module | `map`  |   {}   |
 | internalnic_failover_tags | `key:value` tags to apply to external nic resources built by the module | `map`  |   {}   |
-| cfe_secondary_vip_disable  | Disable Externnal Public IP Association to instance based on this flag (Usecase CFE Scenario) | `bool`  | FALSE  |
+| cfe_secondary_vip_disable  | Disable Externnal Public IP Association to instance based on this flag (Usecase CFE Scenario) | `bool`  | false  |
 | sleep_time | The number of seconds/minutes of delay to build into creation of BIG-IP VMs | `string` | 300s |
 
 ~> **NOTE:** For each external interface there will be one primary,secondary private ip will be assigned.

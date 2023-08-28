@@ -50,8 +50,7 @@ resource "aws_network_interface" "mgmt1" {
 resource "aws_eip" "mgmt" {
   count             = length(local.mgmt_public_subnet_id) > 0 ? (length(local.bigip_map["mgmt_subnet_ids"])) : 0
   network_interface = length(compact(local.mgmt_public_private_ip_primary)) > 0 ? aws_network_interface.mgmt[count.index].id : aws_network_interface.mgmt1[count.index].id
-  # vpc               = true
-  domain = "vpc"
+  domain            = "vpc"
   tags = merge(local.tags, {
     Name = format("%s-%d", "BIGIP-Managemt-PublicIp", count.index)
     }
@@ -62,9 +61,8 @@ resource "aws_eip" "mgmt" {
 # add an elastic IP to the BIG-IP External Public interface
 #
 resource "aws_eip" "ext-pub" {
-  count             = length(local.external_public_subnet_id)
-  network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
-  # vpc                       = true
+  count                     = length(local.external_public_subnet_id)
+  network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].id : aws_network_interface.public1[count.index].id
   domain                    = "vpc"
   associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[count.index].private_ip : aws_network_interface.public1[count.index].private_ip
   tags = merge(local.tags, var.externalnic_failover_tags, {
@@ -80,8 +78,7 @@ resource "aws_eip" "ext-pub" {
 resource "aws_eip" "vip" {
   count = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? 1 : 0)
   # count                     = var.cfe_secondary_vip_disable ? 0 : (length(local.external_public_subnet_id) > 0 ? (length(compact(local.external_public_private_ip_secondary)) > 0 ? 1 : 0) : 0)
-  network_interface = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[0].id : aws_network_interface.public1[0].id
-  # vpc                       = true
+  network_interface         = length(compact(local.external_public_private_ip_primary)) > 0 ? aws_network_interface.public[0].id : aws_network_interface.public1[0].id
   domain                    = "vpc"
   associate_with_private_ip = length(compact(local.external_public_private_ip_primary)) > 0 ? element(compact([for x in tolist(aws_network_interface.public[0].private_ip_list) : x == aws_network_interface.public[0].private_ip ? "" : x]), 0) : element(compact([for x in tolist(aws_network_interface.public1[0].private_ip_list) : x == aws_network_interface.public1[0].private_ip ? "" : x]), 0)
   tags = merge(local.tags, var.externalnic_failover_tags, {
@@ -195,10 +192,12 @@ resource "aws_instance" "f5_bigip" {
   instance_type = var.ec2_instance_type
   ami           = data.aws_ami.f5_ami.id
   key_name      = var.ec2_key_name
-  # availability_zone = 
 
   root_block_device {
     delete_on_termination = true
+    encrypted             = var.ebs_volume_encryption
+    kms_key_id            = var.ebs_volume_kms_key_arn
+    volume_type           = var.ebs_volume_type
   }
 
   # set the mgmt interface
