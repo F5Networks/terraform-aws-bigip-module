@@ -197,6 +197,7 @@ resource "aws_instance" "f5_bigip" {
     delete_on_termination = true
     encrypted             = var.ebs_volume_encryption
     kms_key_id            = var.ebs_volume_kms_key_arn
+    volume_size           = var.ebs_volume_size
     volume_type           = var.ebs_volume_type
   }
 

@@ -218,6 +218,7 @@ These variables have default values and don't have to be set to use this module.
 | ebs_volume_encryption  | Whether to enable encryption on the EBS volume  | `bool`  | false  |
 | ebs_volume_kms_key_arn  | The ARN of the KMS key for volume encryption when using a customer managed key  | `string`  |      |
 | ebs_volume_type  | The EBS volume type to use for the root volume  | `string`  | gp2   |
+| ebs_volume_size  | Size of the volume in gibibytes (GiB)  | `number`  | 82  |
 | f5_ami_search_name  | BIG-IP AMI name to search for  | `string`  | F5 BIGIP-*PAYG-Best 200Mbps*  |
 | aws_secretmanager_auth  | Whether to use key vault to pass authentication  | `bool`  | false  |
 | aws_secretmanager_secret_id  | AWS Secret Manager Secret ID that stores the BIG-IP password  | `string`  |   |
