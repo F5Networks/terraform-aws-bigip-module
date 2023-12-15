@@ -20,10 +20,16 @@ variable "f5_hostname" {
   default     = ""
 }
 
+variable "include_deprecated_amis" {
+  description = "Whether or not to include deprecated AMIs when performing the AMI search"
+  type        = bool
+  default     = false
+}
+
 variable "f5_ami_search_name" {
   description = "BIG-IP AMI name to search for"
   type        = string
-  default     = "F5 BIGIP-17.1.0.2* PAYG-Best Plus 25Mbps*"
+  default     = "F5 BIGIP-17.1* PAYG-Best Plus 25Mbps*"
 }
 
 variable "ec2_instance_type" {
