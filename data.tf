@@ -17,7 +17,8 @@ data "aws_secretsmanager_secret_version" "current" {
 data "aws_ami" "f5_ami" {
   most_recent = true
   // owners      = ["679593333241"]
-  owners = ["aws-marketplace"]
+  owners             = ["aws-marketplace"]
+  include_deprecated = var.include_deprecated_amis
 
   filter {
     name   = "description"
