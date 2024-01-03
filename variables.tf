@@ -170,7 +170,7 @@ variable "TS_URL" {
 variable "CFE_URL" {
   description = "URL to download the BIG-IP Cloud Failover Extension module"
   type        = string
-  default     = "https://github.com/F5Networks/f5-cloud-failover-extension/releases/download/v1.15.0/f5-cloud-failover-1.15.0-0.noarch.rpm"
+  default     = "https://github.com/F5Networks/f5-cloud-failover-extension/releases/download/v2.0.2/f5-cloud-failover-2.0.2-2.noarch.rpm"
 }
 
 ## Please check and update the latest FAST URL from https://github.com/F5Networks/f5-appsvcs-templates/releases/latest 
@@ -185,7 +185,7 @@ variable "FAST_URL" {
 variable "INIT_URL" {
   description = "URL to download the BIG-IP runtime init"
   type        = string
-  default     = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.6.2/dist/f5-bigip-runtime-init-1.6.2-1.gz.run"
+  default     = "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v2.0.1/dist/f5-bigip-runtime-init-2.0.1-1.gz.run"
 }
 variable "libs_dir" {
   description = "Directory on the BIG-IP to download the A&O Toolchain into"

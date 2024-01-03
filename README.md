@@ -239,7 +239,8 @@ These variables have default values and don't have to be set to use this module.
 | tags | `key:value` tags to apply to resources built by the module | `map`  |   {}   |
 | externalnic_failover_tags | `key:value` tags to apply to external nic resources built by the module | `map`  |   {}   |
 | internalnic_failover_tags | `key:value` tags to apply to external nic resources built by the module | `map`  |   {}   |
-| cfe_secondary_vip_disable  | Disable Externnal Public IP Association to instance based on this flag (Usecase CFE Scenario) | `bool`  | false  |
+| cfe_secondary_vip_disable  | Disable Externnal Public IP Association to instance based on this flag (Usecase CFE Scenario) | `bool`  | `false`  |
+| include_deprecated_amis  | Whether or not to include deprecated AMIs when performing the AMI search | `bool`  | `false`  |
 | sleep_time | The number of seconds/minutes of delay to build into creation of BIG-IP VMs | `string` | 300s |
 
 ~> **NOTE:** For each external interface there will be one primary,secondary private ip will be assigned.
