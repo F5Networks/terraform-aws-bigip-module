@@ -258,6 +258,15 @@ resource "aws_instance" "f5_bigip" {
     Name = format("BIGIP-Instance-%s", local.instance_prefix)
     }
   )
+
+  dynamic "metadata_options" {
+    for_each = var.enable_imdsv2 ? [1] : []
+    content {
+      http_endpoint = "enabled"
+      http_tokens   = "required"
+    }
+  }
+
   depends_on = [aws_eip.mgmt, aws_network_interface.public, aws_network_interface.private]
 }
 
