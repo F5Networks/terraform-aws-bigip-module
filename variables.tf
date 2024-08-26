@@ -67,6 +67,12 @@ variable "ebs_volume_type" {
   default     = "gp2"
 }
 
+variable "enable_imdsv2" {
+  description = "Whether to enable IMDSv2 on the EC2 instance."
+  default     = false
+  type        = bool
+}
+
 variable "aws_secretmanager_auth" {
   description = "Whether to use secret manager to pass authentication"
   type        = bool
