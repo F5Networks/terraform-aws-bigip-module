@@ -64,7 +64,7 @@ variable "ebs_volume_size" {
 variable "ebs_volume_type" {
   description = "The EBS volume type to use for the root volume"
   type        = string
-  default     = "gp2"
+  default     = "gp3"
 }
 
 variable "enable_imdsv2" {
